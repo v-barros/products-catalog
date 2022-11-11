@@ -4,13 +4,16 @@ package com.liberty.productcatalog.rest;
 import com.liberty.productcatalog.usecases.getproductdetails.GetProductDetailsUseCase;
 import com.liberty.productcatalog.usecases.getproductdetails.dto.ProductDetailsDto;
 import com.liberty.productcatalog.usecases.insertnewproduct.InsertNewProductUseCase;
+import com.liberty.productcatalog.usecases.insertnewproduct.dto.ProductCreatedDto;
 import com.liberty.productcatalog.usecases.insertnewproduct.form.ProductForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -35,12 +38,14 @@ public class ProductsController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Long> insertProduct(@RequestBody @Valid  ProductForm productForm){
+    public ResponseEntity<ProductCreatedDto> insertProduct(@RequestBody @Valid  ProductForm productForm, UriComponentsBuilder builder){
         try{
-            Long id = insertNewProductUseCase.insertNew(productForm);
-            return ResponseEntity.ok().body(id);
+            ProductCreatedDto productCreatedDto = insertNewProductUseCase.insertNew(productForm);
+            URI uri = builder.path("/v1/products/{productId}").buildAndExpand(productCreatedDto.getId()).toUri();
+            return ResponseEntity.created(uri).body(productCreatedDto);
         }catch (Exception ex){
             return ResponseEntity.badRequest().build();
         }
+
     }
 }
