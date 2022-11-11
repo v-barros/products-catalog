@@ -25,28 +25,25 @@ public class Product {
     private String description;
 
     @Column(nullable = false)
-    private Long rating;
-
-    @Column(nullable = false)
-    private Long sellerId;
+    private Double rating;
 
     @Column(nullable = false)
     private Integer quantityAvailable;
 
     @Column(nullable = false)
-    private Long price;
+    private Double price;
 
     @Column(nullable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ddTHH:mm:ss")
     private LocalDateTime creationDate;
 
-    public Product(Long id, String name, String photo, String description, Long rating, Long sellerId, Integer quantityAvailable, Long price, LocalDateTime creationDate) {
+    public Product(){}
+    public Product(Long id, String name, String photo, String description, Double rating, Integer quantityAvailable, Double price, LocalDateTime creationDate) {
         this.id = id;
         this.name = name;
         this.photo = photo;
         this.description = description;
         this.rating = rating;
-        this.sellerId = sellerId;
         this.quantityAvailable = quantityAvailable;
         this.price = price;
         this.creationDate = creationDate;
@@ -80,20 +77,12 @@ public class Product {
         this.description = description;
     }
 
-    public Long getRating() {
+    public Double getRating() {
         return rating;
     }
 
-    public void setRating(Long rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
-    }
-
-    public Long getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(Long sellerId) {
-        this.sellerId = sellerId;
     }
 
     public Integer getQuantityAvailable() {
@@ -104,11 +93,11 @@ public class Product {
         this.quantityAvailable = quantityAvailable;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -130,6 +119,6 @@ public class Product {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, sellerId, creationDate);
+        return Objects.hash(id, creationDate);
     }
 }
