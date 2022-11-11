@@ -1,14 +1,14 @@
 package com.liberty.productcatalog.usecases.insertnewproduct.dto;
 
-public class ProductCreatedDto {
+public class NewProductDto {
 
     private Long id;
 
-    public ProductCreatedDto(Long id) {
+    public NewProductDto(Long id) {
         this.id = id;
     }
 
-    public ProductCreatedDto() {
+    public NewProductDto() {
     }
 
     public Long getId() {

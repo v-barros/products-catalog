@@ -2,12 +2,10 @@ package com.liberty.productcatalog.usecases.insertnewproduct.form;
 
 import com.liberty.productcatalog.entity.Product;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-public class ProductForm {
+public class NewProductForm {
 
     @NotNull
     @NotBlank
@@ -26,9 +24,9 @@ public class ProductForm {
 
     private Double price;
 
-    public ProductForm(){}
+    public NewProductForm(){}
 
-    public ProductForm(String name, String photo, String description, Integer quantityAvailable, Double price) {
+    public NewProductForm(String name, String photo, String description, Integer quantityAvailable, Double price) {
         this.name = name;
         this.photo = photo;
         this.description = description;
