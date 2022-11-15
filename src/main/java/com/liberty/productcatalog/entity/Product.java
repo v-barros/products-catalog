@@ -28,6 +28,12 @@ public class Product {
     private Double rating;
 
     @Column(nullable = false)
+    private Integer totalRatings;
+
+    @Column(nullable = false)
+    private Integer ratingsSum;
+
+    @Column(nullable = false)
     private Integer quantityAvailable;
 
     @Column(nullable = false)
@@ -38,15 +44,37 @@ public class Product {
     private LocalDateTime creationDate;
 
     public Product(){}
-    public Product(Long id, String name, String photo, String description, Double rating, Integer quantityAvailable, Double price, LocalDateTime creationDate) {
+    public Product(Long id, String name, String photo, String description, Double rating, Integer totalRatings, Integer ratingsSum, Integer quantityAvailable, Double price, LocalDateTime creationDate) {
         this.id = id;
         this.name = name;
         this.photo = photo;
         this.description = description;
         this.rating = rating;
+        this.totalRatings = totalRatings;
+        this.ratingsSum = ratingsSum;
         this.quantityAvailable = quantityAvailable;
         this.price = price;
         this.creationDate = creationDate;
+    }
+
+    public Integer getTotalRatings() {
+        return totalRatings;
+    }
+
+    public void setTotalRatings(Integer totalRatings) {
+        this.totalRatings = totalRatings;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getRatingsSum() {
+        return ratingsSum;
+    }
+
+    public void setRatingsSum(Integer ratingsSum) {
+        this.ratingsSum = ratingsSum;
     }
 
     public Long getId() {

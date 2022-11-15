@@ -19,6 +19,8 @@ public class InsertNewProductUseCase {
         Product product = newProductForm.formToProduct();
         product.setCreationDate(LocalDateTime.parse(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
         product.setRating(0.0);
+        product.setTotalRatings(0);
+        product.setRatingsSum(0);
         Product savedProduct = productRepositoryInterface.save(product);
         return new NewProductDto(savedProduct.getId());
     }

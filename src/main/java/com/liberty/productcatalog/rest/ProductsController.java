@@ -1,6 +1,8 @@
 package com.liberty.productcatalog.rest;
 
 
+import com.liberty.productcatalog.usecases.addrating.AddRatingUseCase;
+import com.liberty.productcatalog.usecases.addrating.form.RatingForm;
 import com.liberty.productcatalog.usecases.getproductdetails.GetProductDetailsUseCase;
 import com.liberty.productcatalog.usecases.getproductdetails.dto.ProductDetailsDto;
 import com.liberty.productcatalog.usecases.getproductslist.GetProductsListUseCase;
@@ -37,6 +39,9 @@ public class ProductsController {
 
     @Autowired
     private GetProductsListUseCase getProductsListUseCase;
+
+    @Autowired
+    private AddRatingUseCase addRatingUseCase;
 
     @GetMapping("/{productId}")
     public ResponseEntity<ProductDetailsDto> getProduct(@PathVariable Long productId){
@@ -81,6 +86,19 @@ public class ProductsController {
             return ResponseEntity.ok(productList);
         }catch (Exception ex){
             return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PutMapping("/{productId}/ratings")
+    @Transactional
+    public ResponseEntity<Double> addNewRating(@PathVariable Long productId, @Valid @RequestBody RatingForm ratingForm){
+        try{
+            if(ratingForm.getId() != productId)
+                throw new IllegalArgumentException();
+            Double newRating = addRatingUseCase.addRating(ratingForm);
+            return ResponseEntity.ok(newRating);
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().build();
         }
     }
 }
