@@ -3,6 +3,8 @@ package com.liberty.productcatalog.rest;
 
 import com.liberty.productcatalog.usecases.getproductdetails.GetProductDetailsUseCase;
 import com.liberty.productcatalog.usecases.getproductdetails.dto.ProductDetailsDto;
+import com.liberty.productcatalog.usecases.getproductslist.GetProductsListUseCase;
+import com.liberty.productcatalog.usecases.getproductslist.dto.ProductDtoToList;
 import com.liberty.productcatalog.usecases.insertnewproduct.InsertNewProductUseCase;
 import com.liberty.productcatalog.usecases.insertnewproduct.dto.NewProductDto;
 import com.liberty.productcatalog.usecases.insertnewproduct.form.NewProductForm;
@@ -17,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -31,6 +34,9 @@ public class ProductsController {
 
     @Autowired
     private UpdateProductUseCase updateProductUseCase;
+
+    @Autowired
+    private GetProductsListUseCase getProductsListUseCase;
 
     @GetMapping("/{productId}")
     public ResponseEntity<ProductDetailsDto> getProduct(@PathVariable Long productId){
@@ -65,6 +71,16 @@ public class ProductsController {
             return ResponseEntity.ok(updatedProductDto);
         }catch (Exception ex ){
             return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<List> getProductsList(){
+        try{
+            List <ProductDtoToList> productList = getProductsListUseCase.getProductsList();
+            return ResponseEntity.ok(productList);
+        }catch (Exception ex){
+            return ResponseEntity.internalServerError().build();
         }
     }
 }
