@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  mysql_dev:
+    build: mysql
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASS}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "${MYSQL_PORT}:${MYSQL_PORT}"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - mysql-compose-network
+
+  adminer:
+    image: adminer
+    env_file:
+      - .env
+    ports:
+      - "${ADMINER_PORT}:8080"
+    networks:
+      - mysql-compose-network
+
+networks:
+  mysql-compose-network:
+    driver: bridge
+
+volumes:
+  mysql-data: {}
