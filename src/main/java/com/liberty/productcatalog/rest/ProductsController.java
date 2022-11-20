@@ -10,10 +10,12 @@ import com.liberty.productcatalog.usecases.getproductslist.dto.ProductDtoToList;
 import com.liberty.productcatalog.usecases.insertnewproduct.InsertNewProductUseCase;
 import com.liberty.productcatalog.usecases.insertnewproduct.dto.NewProductDto;
 import com.liberty.productcatalog.usecases.insertnewproduct.form.NewProductForm;
+import com.liberty.productcatalog.usecases.searchproducts.SearchProductsUseCase;
 import com.liberty.productcatalog.usecases.updateproduct.UpdateProductUseCase;
 import com.liberty.productcatalog.usecases.updateproduct.dto.UpdatedProductDto;
 import com.liberty.productcatalog.usecases.updateproduct.form.ProductToUpdateForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +44,9 @@ public class ProductsController {
 
     @Autowired
     private AddRatingUseCase addRatingUseCase;
+
+    @Autowired
+    private SearchProductsUseCase searchProductsUseCase;
 
     @GetMapping("/{productId}")
     public ResponseEntity<ProductDetailsDto> getProduct(@PathVariable Long productId){
@@ -100,5 +105,16 @@ public class ProductsController {
         }catch (Exception ex){
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List> searchProducts(@RequestParam("keyword") String keyword, @RequestParam(value = "page", required = false, defaultValue = "0") int page, @RequestParam(value = "size",required = false, defaultValue = "10") int size){
+            try{
+                Page pageVar = searchProductsUseCase.searchProducts(keyword,page,size);
+                return ResponseEntity.ok(pageVar.toList());
+            }catch (Exception ex ){
+                return ResponseEntity.badRequest().build();
+            }
+
     }
 }

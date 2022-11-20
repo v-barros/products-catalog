@@ -2,10 +2,14 @@ package com.liberty.productcatalog.repo.impl;
 
 import com.liberty.productcatalog.entity.Product;
 import com.liberty.productcatalog.repo.ProductRepositoryInterface;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 import java.util.Optional;
 
 public class ProductRepositoryImpl implements ProductRepositoryInterface {
+
 
 
     @Override
@@ -67,5 +71,10 @@ public class ProductRepositoryImpl implements ProductRepositoryInterface {
     @Override
     public void deleteAll() {
 
+    }
+
+    @Override
+    public Page<Product> search(String keyword, Pageable pageable) {
+        return null;
     }
 }
